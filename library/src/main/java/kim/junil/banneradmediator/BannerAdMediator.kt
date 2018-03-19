@@ -63,28 +63,28 @@ class BannerAdMediator{
         }
 
         override fun onAdFailedToLoad(adView: BannerAdView, errMsg: String) {
-            Log.d("ad-"+adView.getAdTag(), "onAdLoaded()")
+            Log.d("ad-"+adView.getAdTag(), "onAdFailedToLoad($errMsg)")
             handler.removeCallbacksAndMessages(null)
             getNextAdView()
         }
 
         override fun onAdOpened(adView: BannerAdView) {
-            Log.d("ad-"+adView.getAdTag(), "onAdLoaded()")
+            Log.d("ad-"+adView.getAdTag(), "onAdOpened()")
 
         }
 
         override fun onAdClicked(adView: BannerAdView) {
-            Log.d("ad-"+adView.getAdTag(), "onAdLoaded()")
+            Log.d("ad-"+adView.getAdTag(), "onAdClicked()")
 
         }
 
         override fun onAdClosed(adView: BannerAdView) {
-            Log.d("ad-"+adView.getAdTag(), "onAdLoaded()")
+            Log.d("ad-"+adView.getAdTag(), "onAdClosed()")
 
         }
 
         override fun onAdLeftApplication(adView: BannerAdView) {
-            Log.d("ad-"+adView.getAdTag(), "onAdLoaded()")
+            Log.d("ad-"+adView.getAdTag(), "onAdLeftApplication()")
 
         }
 
