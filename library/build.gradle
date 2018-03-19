@@ -1,10 +1,33 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.novoda.bintray-release'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.8.0'
+    }
+}
+
+publish {
+    userOrg = 'kimjunil'
+    groupId = 'kim.junil.banneradmediator'
+    artifactId = 'banner-ad-mediator'
+    publishVersion = '0.1'
+    desc = 'https://github.com/kimjunil/BannerAdMediator'
+    website = 'https://github.com/kimjunil/BannerAdMediator'
+    issueTracker = "https://github.com/kimjunil/BannerAdMediator/issues"
+    repository = "https://github.com/kimjunil/BannerAdMediator.git"
+}
+
+tasks.withType(Javadoc).all {
+    enabled = false
+}
 
 android {
     compileSdkVersion 27
-
-
 
     defaultConfig {
         minSdkVersion 16
