@@ -36,26 +36,32 @@ class BannerAdMediationLayout : FrameLayout {
     }
 
     fun onResume() {
-        for (i in 0..childCount){
-            if (getChildAt(i) is BannerAdView.ActivityLifeCycleListener){
-                (getChildAt(i) as BannerAdView.ActivityLifeCycleListener).onResume()
-            }
+        if (!bannerAdMediator.isStarted){
+            bannerAdMediator.startMediation()
         }
+
+        (0..childCount)
+                .filter { getChildAt(it) is BannerAdView.ActivityLifeCycleListener }
+                .forEach { (getChildAt(it) as BannerAdView.ActivityLifeCycleListener).onResume() }
     }
 
     fun onPause() {
-        for (i in 0..childCount){
-            if (getChildAt(i) is BannerAdView.ActivityLifeCycleListener){
-                (getChildAt(i) as BannerAdView.ActivityLifeCycleListener).onPause()
-            }
+        if (bannerAdMediator.isStarted){
+            bannerAdMediator.stopMediation()
         }
+
+        (0..childCount)
+                .filter { getChildAt(it) is BannerAdView.ActivityLifeCycleListener }
+                .forEach { (getChildAt(it) as BannerAdView.ActivityLifeCycleListener).onPause() }
     }
 
     fun onDestroy() {
-        for (i in 0..childCount){
-            if (getChildAt(i) is BannerAdView.ActivityLifeCycleListener){
-                (getChildAt(i) as BannerAdView.ActivityLifeCycleListener).onDestroy()
-            }
+        if (bannerAdMediator.isStarted){
+            bannerAdMediator.stopMediation()
         }
+
+        (0..childCount)
+                .filter { getChildAt(it) is BannerAdView.ActivityLifeCycleListener }
+                .forEach { (getChildAt(it) as BannerAdView.ActivityLifeCycleListener).onDestroy() }
     }
 }

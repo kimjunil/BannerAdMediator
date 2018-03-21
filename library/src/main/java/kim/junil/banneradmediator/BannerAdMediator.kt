@@ -20,6 +20,7 @@ class BannerAdMediator{
     }
 
     private val bannerAdViews: ArrayList<Pair<BannerAdView, Int>> = arrayListOf()
+    var isStarted = false
 
     fun addBanner(bannerAdView: BannerAdView, ratio: Int){
         bannerAdView.adListener = adListener
@@ -35,8 +36,16 @@ class BannerAdMediator{
         Executors.newSingleThreadExecutor().execute {
             Log.d("ad-", "=============================")
             Log.d("ad-", "startMediation()")
+            isStarted = true
             getNextAdView()
         }
+    }
+
+    fun stopMediation(){
+        handler.removeCallbacksAndMessages(null)
+        isStarted = false
+        Log.d("ad-", "stopMediation()")
+        Log.d("ad-", "=============================")
     }
 
     private fun getNextAdView(){
