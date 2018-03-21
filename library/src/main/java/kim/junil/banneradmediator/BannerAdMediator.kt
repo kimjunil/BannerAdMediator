@@ -5,19 +5,14 @@ import android.os.Message
 import android.util.Log
 import kim.junil.banneradmediator.utility.random
 import kim.junil.banneradmediator.view.BannerAdView
+import java.lang.ref.WeakReference
 import java.util.*
 import java.util.concurrent.Executors
 
 class BannerAdMediator{
 
     lateinit var listener: ReceivedNextBannerListener
-    internal var handler: Handler = object : Handler() {
-        override fun handleMessage(msg: Message) {
-            super.handleMessage(msg)
-            Log.d("ad-", "handleMessage")
-            getNextAdView()
-        }
-    }
+    internal var handler: Handler = BannerHandler(this)
 
     private val bannerAdViews: ArrayList<Pair<BannerAdView, Int>> = arrayListOf()
     var isStarted = false
@@ -66,37 +61,46 @@ class BannerAdMediator{
         }
     }
 
-    private val adListener = object : BannerAdView.AdListener{
+    private val adListener = object : BannerAdView.AdListener {
         override fun onAdLoaded(adView: BannerAdView) {
-            Log.d("ad-"+adView.getAdTag(), "onAdLoaded()")
+            Log.d("ad-" + adView.getAdTag(), "onAdLoaded()")
         }
 
         override fun onAdFailedToLoad(adView: BannerAdView, errMsg: String) {
-            Log.d("ad-"+adView.getAdTag(), "onAdFailedToLoad($errMsg)")
+            Log.d("ad-" + adView.getAdTag(), "onAdFailedToLoad($errMsg)")
             handler.removeCallbacksAndMessages(null)
             getNextAdView()
         }
 
         override fun onAdOpened(adView: BannerAdView) {
-            Log.d("ad-"+adView.getAdTag(), "onAdOpened()")
+            Log.d("ad-" + adView.getAdTag(), "onAdOpened()")
 
         }
 
         override fun onAdClicked(adView: BannerAdView) {
-            Log.d("ad-"+adView.getAdTag(), "onAdClicked()")
+            Log.d("ad-" + adView.getAdTag(), "onAdClicked()")
 
         }
 
         override fun onAdClosed(adView: BannerAdView) {
-            Log.d("ad-"+adView.getAdTag(), "onAdClosed()")
+            Log.d("ad-" + adView.getAdTag(), "onAdClosed()")
 
         }
 
         override fun onAdLeftApplication(adView: BannerAdView) {
-            Log.d("ad-"+adView.getAdTag(), "onAdLeftApplication()")
+            Log.d("ad-" + adView.getAdTag(), "onAdLeftApplication()")
 
         }
+    }
 
+    class BannerHandler(bannerAdMediator: BannerAdMediator) : Handler() {
+        private val bannerAdMediator: WeakReference<BannerAdMediator> = WeakReference(bannerAdMediator)
+
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            Log.d("ad-", "handleMessage")
+            bannerAdMediator.get()?.getNextAdView()
+        }
     }
 
     interface ReceivedNextBannerListener{
