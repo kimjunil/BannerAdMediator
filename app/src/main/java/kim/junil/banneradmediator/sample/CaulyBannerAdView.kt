@@ -17,6 +17,7 @@ class CaulyBannerAdView(context: Context, visibleTime:Int,  adUnitId: String) : 
     }
 
     override fun loadAd() {
+        super.loadAd()
         mAdView.reload()
     }
 

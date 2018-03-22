@@ -17,6 +17,7 @@ class DawinClickBannerAdView(context: Activity, visibleTime:Int, adUnitId: Strin
     }
 
     override fun loadAd() {
+        super.loadAd()
         mAdView.loadAd(null)
     }
 

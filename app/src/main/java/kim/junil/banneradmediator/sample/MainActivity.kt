@@ -12,12 +12,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val mediator = BannerAdMediator()
-        val admob = AdmobBannerAdView(this, 5, "ca-app-pub-3940256099942544/6300978111")
-        val adfit = AdfitBannerAdView(this, 5, "DAN-urjkqh0btdut")
-        val cauly = CaulyBannerAdView(this, 5, "pT2d8M2M")
+        val admob = AdmobBannerAdView(this, 15, "ca-app-pub-3940256099942544/6300978111")
+        val adfit = AdfitBannerAdView(this, 15, "DAN-urjkqh0btdut")
+        val cauly = CaulyBannerAdView(this, 15, "pT2d8M2M")
 
         mediator.addBanner(admob, 8)
-        mediator.addBanner(adfit, 5)
+        mediator.addBanner(adfit, 15)
         mediator.addBanner(cauly, 2)
 
         bannerAdMediationLayout.bannerAdMediator = mediator

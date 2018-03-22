@@ -40,6 +40,7 @@ class AdfitBannerAdView(context: Context, visibleTime:Int, adUnitId: String) : B
     }
 
     override fun loadAd() {
+        super.loadAd()
         mAdView?.loadAd()
     }
 
