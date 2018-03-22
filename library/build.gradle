@@ -15,7 +15,7 @@ publish {
     userOrg = 'kimjunil'
     groupId = 'kim.junil.banneradmediator'
     artifactId = 'banner-ad-mediator'
-    publishVersion = '0.1.2'
+    publishVersion = '0.1.4'
     desc = 'https://github.com/kimjunil/BannerAdMediator'
     website = 'https://github.com/kimjunil/BannerAdMediator'
     issueTracker = "https://github.com/kimjunil/BannerAdMediator/issues"
@@ -50,6 +50,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support:support-annotations:27.1.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

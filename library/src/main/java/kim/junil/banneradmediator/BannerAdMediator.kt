@@ -43,15 +43,36 @@ class BannerAdMediator{
         Log.d("ad-", "=============================")
     }
 
+    fun skipBanner(adView: BannerAdView){
+        Log.d("ad-", "$adView is skip")
+        handler.removeCallbacksAndMessages(null)
+        getNextAdView(bannerAdViews.filter { it.first.getAdTag() != adView.getAdTag()  /*it.first.isLoaded || it.first.neverLoad*/ })
+    }
+
     private fun getNextAdView(){
+        getNextAdView(null)
+    }
+
+    private fun getNextAdView(adList:List<Pair<BannerAdView, Int>>?){
         Log.d("ad-", "getNextAdView()")
-        val maxRatio = bannerAdViews.sumBy { it.second }
+
+        val sortedAdViewList: List<Pair<BannerAdView, Int>> = if (adList == null || adList.isEmpty()){
+            bannerAdViews.sortedBy { it.second }
+        }else{
+            adList.sortedBy { it.second }
+        }
+
+        val maxRatio = sortedAdViewList.sumBy { it.second }
         var randomValue = Int.random(maxRatio)
 
-        val sortedAdViewList = bannerAdViews.sortedBy { it.second }
+//        for (ad in sortedAdViewList)
+//            Log.d("ad-", "${ad.first.getAdTag()}-${ad.first.visibleTime}-${ad.second}sec")
+//        Log.d("ad-", "maxRatio=$maxRatio, randomValue=$randomValue")
+
         for (adView in sortedAdViewList){
             randomValue -= adView.second
             if (randomValue < 0){
+                Log.d("ad-", "resultValue=$randomValue")
                 Log.d("ad-"+adView.first.getAdTag(), adView.first.getAdTag()+" is next")
                 Log.d("ad-"+adView.first.getAdTag(), "NextDelay-${adView.first.visibleTime*1000}")
                 listener.onReceived(adView.first)
@@ -68,8 +89,7 @@ class BannerAdMediator{
 
         override fun onAdFailedToLoad(adView: BannerAdView, errMsg: String) {
             Log.d("ad-" + adView.getAdTag(), "onAdFailedToLoad($errMsg)")
-            handler.removeCallbacksAndMessages(null)
-            getNextAdView()
+            skipBanner(adView)
         }
 
         override fun onAdOpened(adView: BannerAdView) {
