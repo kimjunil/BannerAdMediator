@@ -1,24 +1,23 @@
 package kim.junil.banneradmediator.view
 
 import android.content.Context
+import android.support.annotation.CallSuper
 import android.view.View
 
-abstract class BannerAdView {
+abstract class BannerAdView(val context: Context, val visibleTime: Int) {
 
-    val context: Context
-    val visibleTime: Int
+    var neverLoad = true
     var isLoaded:Boolean = false
 
     var adListener: AdListener? = null
 
-    constructor(context:Context, visibleTime:Int){
-        this.context = context
-        this.visibleTime = visibleTime
-    }
-
     abstract fun getAdView() : View
 
-    abstract fun loadAd()
+    @CallSuper
+    open fun loadAd(){
+        if (!neverLoad)
+            neverLoad = true
+    }
 
     abstract fun getAdTag(): String
 

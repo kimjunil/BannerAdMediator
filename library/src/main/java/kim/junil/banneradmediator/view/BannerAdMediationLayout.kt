@@ -24,11 +24,15 @@ class BannerAdMediationLayout : FrameLayout {
                 Handler(Looper.getMainLooper()).post {
                     removeAllViews()
                     addView(adView.getAdView())
-                    if ( adView.getAdTag().equals("adfit")){
-                        adView.getAdView().visibility = View.VISIBLE
+
+                    if (!adView.isLoaded){
+                        if (adView.neverLoad) {
+                            adView.loadAd()
+                        }else{
+                            bannerAdMediator.skipBanner(adView)
+                        }
+
                     }
-                    if (!adView.isLoaded)
-                        adView.loadAd()
                 }
             }
         }
